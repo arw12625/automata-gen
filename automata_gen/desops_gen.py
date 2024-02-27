@@ -1,3 +1,5 @@
+from automata_gen.util import rename_events
+
 import DESops as d
 from DESops.random_automata import generate
 
@@ -6,7 +8,7 @@ def gen_desops(num_states,
                num_events=None, events=None,
                min_trans_per_state=0, max_trans_per_state=None,  # if None, is set to num_events
                deterministic=True,
-               num_init_states=1, num_marked_states=0,
+               num_init_states=1, num_marked_states=1,
                enforce_accesibility=True, enforce_max_trans_per_state=True,
                prob_self_loop=1):
     """
@@ -31,9 +33,8 @@ def gen_desops(num_states,
     if num_events is not None and events is not None:
         raise ValueError("Cannot provide both `num_events` or `events`")
 
-    event_map = None
     if events:
-        event_map = {i: e for i, e in enumerate(events)}
+        num_events = len(events)
 
     while True:
         g = generate(
@@ -47,14 +48,6 @@ def gen_desops(num_states,
         )
 
         if events:
-            _rename_events(g, event_map)
+            event_map = dict(zip(g.events, events))
+            rename_events(g, event_map)
         yield g
-
-
-def _rename_events(g, event_map):
-    """
-    Rename the events of an automaton according to a given dictionary or map.
-    """
-    g.es['label'] = [event_map.get(e['label']) for e in g.es]
-    g.generate_out()
-    g.events = {event_map[event] for event in g.events}
