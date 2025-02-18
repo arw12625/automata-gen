@@ -1,8 +1,8 @@
 from automata_gen.util import rename_events
 
 import DESops as d
-from DESops.random_automata import generate
-
+#from DESops.random_automata import generate
+from automata_gen.desops_generate import generate
 
 def gen_desops(num_states,
                num_events=None, events=None,
@@ -10,7 +10,8 @@ def gen_desops(num_states,
                deterministic=True,
                num_init_states=1, num_marked_states=1,
                enforce_accesibility=True, enforce_max_trans_per_state=True,
-               prob_self_loop=1):
+               prob_self_loop=1,
+               allow_det_multiple_init=False):
     """
     Generate automata using the method implemented by M-DESops.
 
@@ -44,7 +45,8 @@ def gen_desops(num_states,
                 det=deterministic,
                 num_init=num_init_states, num_marked=num_marked_states,
                 enforce_accesibility=enforce_accesibility, enforce_max_trans_per_state=enforce_max_trans_per_state,
-                prob_self_loop=prob_self_loop
+                prob_self_loop=prob_self_loop,
+                allow_det_multiple_init=allow_det_multiple_init
         )
 
         if events:
