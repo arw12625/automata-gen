@@ -48,7 +48,6 @@ def write_random_wmod(num_automata, num_states,
         g = next(gen)  # generate an automaton
         if num_init_states > 1:
             g = determinize_multiple_init(g)
-            print(g)
 
         g.vs['name'] = [str(i) for i in g.vs.indices]  # ensure state names are strings
         event_map = {e: str(e) for e in g.events}
